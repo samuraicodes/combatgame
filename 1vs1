@@ -1,0 +1,113 @@
+import random
+
+class Fighter():    
+    def __init__(self, name, martial_art,hits):
+        self.name = name
+        self.martial_art = martial_art
+        self.hits = hits
+
+
+fighter_bruce = Fighter("Bruce","Jeet Kune Do", ["Sidekick","Knee", "Finger jab", "One inch punch"])#patada lateral rodillazos finger jab one inch punch 
+fighter_ali = Fighter("Ali", "Box", ["Jab","Cross","Swing","Upercut"])
+fighter_ho = Fighter("Ho", "Taekwondo", ["Hansonal mok", "Palkup","Murup", "Dolio chagui"])#Hansonal mok chigui(Golpe de canto al cuello) Palkup chigui(codo) Murup chigui(rodilla) Dolio chagui(patada circular) 
+fighter_saenchai = Fighter("Saenchai", "Muay Thai", ["Mad","Sok","Kao","Tae"]) #MadPuño #Sokcodo #Kaorodilla tae patada
+fighter_masutatsu = Fighter("Mutatsu", "Karate Kyokushin", ["SuneGeri", "Hiza", "Kento", "Atama"]) #SuneGeriLOwKick #HizaRodilla #Kento Nudillos #Atama #Cabeza
+
+fighter_list = [0, fighter_bruce , fighter_ali, fighter_ho, fighter_saenchai, fighter_masutatsu]
+
+listNames = "(1) Bruce" + " - (2) Ali" + " - (3) Ho" + " - (4) Saenchai" + " - (5) Masutatsu"
+
+user = ""
+user_two = ""
+
+energy_user = 100
+energy_user_two = 100
+start = True
+
+output_versus = "{0} ({1}) VS {2} ({3})"
+
+answers = ['1','2','3','4','5']
+
+#Player1
+
+def select_player():
+    global user
+    global fighter_list
+    print("P1 - Select your fighter:" + listNames)
+    name = input()
+    while name not in answers:
+        print("Only numbers:" + listNames)
+        name = input()
+    user = fighter_list[int(name)]
+
+
+def user_atack():
+    global energy_user_two
+    print("P1 - Select your hit: ", user.hits )
+    punch = input()
+    energy_user_two = (energy_user_two + random.randint(0,5)) - (random.randint(0,5)+random.randint(5,25))
+    user_energy_check()
+
+
+def user_energy_check():
+    global start
+    global energy_user
+    global energy_user_two
+    if energy_user > 0 and energy_user_two > 0:
+        print("P2 energy is:", energy_user_two)
+    if energy_user_two < 0:
+        print("P2 energy runs out")
+        end_game()
+        start = False
+    
+#Player 2
+
+def select_user_two():
+    global user_two
+    print("P2 - Select your fighter:" + listNames)
+    name_player_two = input()
+    while name_player_two  not in answers:
+        print("Only numbers:" + listNames)
+        name_player_two  = input()
+    user_two = fighter_list[int(name_player_two)]
+    
+
+def user_two_atack():
+    global energy_user
+    print("P2 select your hit: ", user_two.hits )
+    punch = input()
+    energy_user = (energy_user + random.randint(0,5)) - (random.randint(0,5)+random.randint(5,25))
+    user_two_energy_check()
+
+
+def user_two_energy_check():
+    global start
+    global energy_user
+    if energy_user > 0 and energy_user_two > 0:
+        print("P1 energy is:", energy_user)
+    if energy_user <  0:
+        print("P1 energy runs out")
+        end_game()
+        start = False
+
+def end_game():
+    if energy_user < energy_user_two:
+        print("Player two win")
+    else:
+        print("Player one win")
+
+#Start Game
+        
+select_player()
+select_user_two()
+print(output_versus.format(user.name, user.martial_art, user_two.name,user_two.martial_art))
+while start:
+    user_atack()
+    if energy_user_two > 0: 
+        user_two_atack()
+        
+        
+
+
+
+
